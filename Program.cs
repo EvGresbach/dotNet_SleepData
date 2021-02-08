@@ -59,7 +59,40 @@ namespace SleepData
             else if (resp == "2")
             {
                 // TODO: parse data file
+                //Stream reader to get data off file
+                StreamReader sr = new StreamReader("data.txt"); 
+                
+                while(!sr.EndOfStream){
+                    // split into week and hours
+                    string line = sr.ReadLine(); 
+                    string[] sWeek = line.Split(",");
 
+                    // split hours into days
+                    string[] sHours = sWeek[1].Split("|"); 
+                    
+                    //format week and hours
+                    DateTime week = DateTime.Parse(sWeek[0]); 
+                    double[] hours = new double[7]; 
+                    for(int i = 0; i < sHours.Length; i++){
+                        hours[i] = Double.Parse(sHours[i]); 
+                    }
+                    // Extra Credit
+                    // get total and average
+                    double total = 0; 
+                    foreach(double hour in hours){
+                        total += hour; 
+                    }
+                    double avg = total/7; 
+
+                    //print   
+                    Console.WriteLine($"Week of {week:MMM}, {week:dd}, {week:yyyy}"); 
+                    Console.WriteLine(" Mo Tu We Th Fr Sa Su Tot Avg\n -- -- -- -- -- -- -- --- ---"); 
+                    foreach(double num in hours){
+                        Console.Write($"{num, 3}"); 
+                    }
+                    Console.WriteLine($"{total, 4} {avg, 3:f1}\n"); 
+                }
+                
             }
         }
     }
